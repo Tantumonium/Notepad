@@ -1,7 +1,5 @@
 <script type="text/javascript">
 
-<script type="text/javascript">
-
 function changeFavicon(url) {
 	var link = document.createElement('link'),
 		oldLink = document.querySelector('link[rel="shortcut icon"]') || document.querySelector('link[rel="icon"]');
@@ -613,6 +611,7 @@ questionMarkIcon.onclick = function() {
 		document.body.removeChild(overlay);
 	};
 };
+
 loadDbButton.addEventListener('click', function() {
 	fileInput.click();
 	fileInput.onchange = function(e) {
@@ -842,6 +841,5 @@ document.addEventListener('DOMContentLoaded', function() {
 		ensureDivWrapper();
 	}
 });
-
 
 </script>

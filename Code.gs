@@ -24,3 +24,11 @@ function include(filename) {
 	return HtmlService.createHtmlOutputFromFile(filename)
 			.getContent();
 }
+
+function saveEntriesToProperties(entriesJSON) {
+  PropertiesService.getScriptProperties().setProperty('entries', entriesJSON);
+}
+
+function loadEntriesFromProperties() {
+  return PropertiesService.getScriptProperties().getProperty('entries');
+}

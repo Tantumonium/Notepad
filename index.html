@@ -1,25 +1,23 @@
 <html>
 <head>
-	<title>Notes</title>
+	<title>Notepad</title>
 	<?!= include('cssCustomizations'); ?>
 </head>
 <body>
-<div class="top-pane">
-	<input id="entry-title" type="text" placeholder="Create new entry here...">
-	<div class="button-bar">
-		<button id="save-button" type="button">Save as txt file</button>
-    <button id="save-db-button" type="button">Save Database</button>
-    <button id="load-db-button" type="button">Load Database</button> 
+	<div class="top-pane">
+		<input id="entry-title" type="text" placeholder="Create new entry here...">
+		<div class="button-bar">
+			<button id="save-button" type="button">Save as txt file</button>
+			<button id="save-db-button" type="button">Save DB File</button>
+			<button id="load-db-button" type="button">Load DB File</button> 
+		</div>
 	</div>
-</div>
-<div class="content-area">
-	<div id="entry-list">
+	<div class="content-area">
+		<div id="entry-list"></div>
+		<div id="entry-content"></div>
 	</div>
-	<div id="entry-content">
-	</div>
-</div>
-<textarea id="entry-content-storage"></textarea>
-<input id="file-input" type="file" style="display: none;">
-<?!= include('jsFunctions'); ?>
+	<textarea id="entry-content-storage"></textarea>
+	<input id="file-input" type="file" style="display: none;">
+	<?!= include('jsFunctions'); ?>
 </body>
 </html>
