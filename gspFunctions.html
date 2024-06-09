@@ -1,0 +1,101 @@
+<!-- Load the jQuery & Bootstrap libraries. -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+    const saveBtn = document.getElementById("save-content-button");
+    const loadSelect = document.getElementById("load-select");
+    const deleteBtn = document.getElementById("delete-content-button");
+    const textarea = document.getElementById("entry-content-storage");
+    const saveCollectionNameButton = document.getElementById('saveCollectionName'); // Capture the modal button click
+    const collectionNameInput = document.getElementById('collectionNameInput'); // Get the user input from the modal
+
+    let isDirty = false;
+
+    // Mark textarea as dirty when content changes
+    textarea.addEventListener("input", () => {
+        isDirty = true;
+    });
+
+    // Warn before closing window with unsaved changes
+    window.addEventListener("beforeunload", (event) => {
+        if (isDirty) {
+            event.preventDefault();
+            event.returnValue = '';
+        }
+    });
+
+    // Function to show modal, collect name, and save content
+    function showSaveModalAndSave() {
+        const modal = document.getElementById('collectionNameModal');
+        const modalInstance = new bootstrap.Modal(modal);
+        modalInstance.show();
+
+        saveCollectionNameButton.addEventListener('click', () => {
+            const collectionName = collectionNameInput.value;
+            google.script.run.withSuccessHandler(() => {
+                isDirty = false;
+                updateSelectOptions(); // Update select options after successful save
+                alert("Content saved.");
+            }).saveContentToScriptProperties(collectionName, textarea.value);
+        });
+    }
+
+    saveBtn.addEventListener("click", showSaveModalAndSave);
+    loadSelect.addEventListener("change", () => { loadContent(); });
+    deleteBtn.addEventListener("click", deleteContent);
+
+    // Initial setup
+    updateSelectOptions();
+
+});
+
+
+// Function to load content from Script Properties
+function loadContent() {
+    var select = document.getElementById("load-select");
+    var selectedName = select.options[select.selectedIndex].value;
+
+    google.script.run.withSuccessHandler((content) => {
+    if (content) {
+        document.getElementById("entry-content-storage").value = content;
+        document.getElementById("entry-content").innerHTML = content;
+    } else {
+        alert("No content found for the selected entry.");
+    }
+    }).loadContentFromScriptProperties(selectedName);
+}
+
+// Function to update load select with keys from Script Properties
+function updateSelectOptions() {
+    var select = document.getElementById("load-select");
+
+    google.script.run.withSuccessHandler((scriptProperties) => {
+    select.innerHTML = "";
+    for (var name in scriptProperties) {
+        const option = document.createElement("option");
+        option.value = name;
+        option.textContent = name;
+        select.appendChild(option);
+    }
+    const savedSelectedName = localStorage.getItem('selectedName');
+    if (savedSelectedName) {
+        select.value = savedSelectedName;
+    }
+    }).getAllKeysFromScriptProperties();
+}
+
+// Function to delete content from Script Properties
+function deleteContent() {
+    var select = document.getElementById("load-select");
+    var selectedName = select.options[select.selectedIndex].value;
+    
+    google.script.run.withSuccessHandler(() => {
+        // Update select options after successful delete
+        updateSelectOptions();
+        alert("Content deleted.");
+    }).deleteContentFromScriptProperties(selectedName);
+}
+
+</script>

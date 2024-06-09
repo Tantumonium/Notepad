@@ -1,23 +1,49 @@
 <html>
 <head>
 	<title>Notepad</title>
-	<?!= include('cssCustomizations'); ?>
+	<!-- <?!= include('cssCustomizations'); ?> -->
 </head>
 <body>
 	<div class="top-pane">
-		<input id="entry-title" type="text" placeholder="Create new entry here...">
-		<div class="button-bar">
-			<button id="save-button" type="button">Save as txt file</button>
-			<button id="save-db-button" type="button">Save DB File</button>
-			<button id="load-db-button" type="button">Load DB File</button> 
+		<input type="text" class="form-control" id="entry-title" placeholder="Create new entry here..." style="flex-basic: content;">
+		<div class="d-flex">
+			<button type="button" class="btn btn-primary btn-sm" id="save-button">Save as txt file</button>
+			<button type="button" class="btn btn-primary btn-sm" id="save-db-button">Save DB File</button>
+			<button type="button" class="btn btn-primary btn-sm" id="load-db-button">Load DB File</button>
+			<button type="button" class="btn btn-primary btn-sm" id="save-content-button">Save</button>
+			<select class="form-select form-select-sm" id="load-select"></select>
+			<button type="button" class="btn btn-danger btn-sm" id="delete-content-button">Delete</button>
 		</div>
 	</div>
 	<div class="content-area">
 		<div id="entry-list"></div>
 		<div id="entry-content"></div>
 	</div>
-	<textarea id="entry-content-storage"></textarea>
+	<textarea id="entry-content-storage" class="form-control"></textarea>
 	<input id="file-input" type="file" style="display: none;">
+
+	<div class="modal fade" id="collectionNameModal" tabindex="-1" aria-labelledby="collectionNameLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="collectionNameLabel">Enter Collection Name</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<p>Enter a name for your collection (a timestamp will be added).</p>
+					<div class="mb-3">
+						<input type="text" class="form-control" id="collectionNameInput" placeholder="Collection Name">
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary" id="saveCollectionName">Save</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<?!= include('jsFunctions'); ?>
+	<?!= include('gspFunctions'); ?>
 </body>
 </html>

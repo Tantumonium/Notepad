@@ -25,10 +25,37 @@ function include(filename) {
 			.getContent();
 }
 
-function saveEntriesToProperties(entriesJSON) {
-  PropertiesService.getScriptProperties().setProperty('entries', entriesJSON);
+
+
+
+// Function to save content to Script Properties
+function saveContentToScriptProperties(name, content) {
+	const timestamp = new Date().toISOString(); // Add timestamp
+	const key = `${name} (${timestamp})`; // Construct key
+	
+	// Save data to Script Properties
+	const properties = PropertiesService.getScriptProperties(); // Get the Properties object first
+	properties.setProperty(key, content);
+	
+	return key; // Return the key for reference
 }
 
-function loadEntriesFromProperties() {
-  return PropertiesService.getScriptProperties().getProperty('entries');
+// Function to load content from Script Properties
+function loadContentFromScriptProperties(key) {
+	// Load data from Script Properties
+	const properties = PropertiesService.getScriptProperties(); // Get the Properties object first
+	return properties.getProperty(key);
+}
+
+// Function to get all keys from Script Properties
+function getAllKeysFromScriptProperties() {
+	const properties = PropertiesService.getScriptProperties(); // Get the Properties object first
+	return properties.getProperties();
+}
+
+// Function to delete content from Script Properties
+function deleteContentFromScriptProperties(key) {
+	// Delete data from Script Properties
+	const properties = PropertiesService.getScriptProperties(); // Get the Properties object first
+	properties.deleteProperty(key);
 }
